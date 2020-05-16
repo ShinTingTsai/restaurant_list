@@ -34,6 +34,14 @@ app.get("/", (req, res) => {
   .catch(error => console.error(error))
 });
 
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('show', { restaurant }))
+    .catch(error => console.error(error))
+})
+
 
 // app.get('/search', (req, res) => {
 //   const keyword = req.query.keyword
@@ -47,12 +55,6 @@ app.get("/", (req, res) => {
 //   }
 // })
 
-// app.get('/restaurants/:id', (req, res) => {
-//   const restaurant = restaurantList.results.find(
-//     (restaurant) => restaurant.id.toString() === req.params.id
-//   )
-//   res.render('show', { restaurant: restaurant })
-// })
 
 app.listen(port, () => {
   console.log(`Express is running on http://localhost:${port}`)
