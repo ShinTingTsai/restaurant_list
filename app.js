@@ -90,11 +90,16 @@ app.post("/restaurants/:id/delete", (req, res) => {
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
 
+  return Restaurant.find({ name: { $regex: `${keyword}`, $options: "i" } })
+    .lean()
+    .then((restaurants) => {
+      if (Object.keys(restaurants).length === 0) res.render('notFound', { keyword })
+      else res.render('index', { restaurants, keyword })
+    });
 
-  
-  const restaurants = restaurantList.results.filter(restaurant => {
-    return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
-  })
+  // const restaurants = restaurantList.results.filter(restaurant => {
+  //   return restaurant.name.toLowerCase().includes(keyword.toLowerCase())
+  // })
   if (Object.keys(restaurants).length === 0) {
     res.render('notFound', { keyword: keyword })
   } else {
