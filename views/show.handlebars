@@ -19,8 +19,10 @@
   <h1 class="mb-1 restaurant-show-title">{{ restaurant.name }}</h1>
 
   <div class="row justify-content-end mb-3">
-    <a href="#" class="btn btn-danger mr-3">刪除</a>
-    <a href="/restaurants/{{restaurant._id}}/edit" class="btn btn-primary mr-3">修改</a>
+    <form action="/restaurants/{{ restaurant._id }}/delete" method="post">
+      <button class="btn btn-danger mr-3" type="submit">刪除</button>
+    </form>
+    <a href="/restaurants/{{ restaurant._id }}/edit" class="btn btn-primary mr-3">修改</a>
   </div>
   <div class="row align-items-center mb-3">
     <div class="col-sm-2 text-secondary text-right pr-0">

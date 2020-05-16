@@ -66,26 +66,25 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .then((restaurant) => res.render("edit", { restaurant }))
     .catch((error) => console.error(error));
 });
-app.post("/restaurants/:id/edit", (req, res) => {
-  console.log('req.params',req.params)
-  console.log("req.params", req.body);
+app.post('/restaurants/:id/edit', (req, res) => {
   const id = req.params.id
-  const restaurant = req.body;
+  // const restaurant = req.body;
   return Restaurant.findById(id)
-    .then((oldRestaurant) => {
-      oldRestaurant.name = restaurant.name;
-      oldRestaurant.category = restaurant.category
-      oldRestaurant.location = restaurant.location
-      oldRestaurant.phone = restaurant.phone
-      oldRestaurant.description = restaurant.description
-      oldRestaurant.image = restaurant.image
-      return oldRestaurant.save()
+    .then((restaurant) => {
+      restaurant = Object.assign(restaurant, req.body);
+      return restaurant.save();
     })
     .then(() => res.redirect(`/restaurants/${id}`))
     .catch((error) => console.error(error));
 })
 // Delete
-
+app.post("/restaurants/:id/delete", (req, res) => {
+  const id = req.params.id;
+  return Restaurant.findById(id)
+    .then(restaurant => restaurant.remove())
+    .then(() => res.redirect('/'))
+    .catch(error => console.error(error))
+});
 
 
 // app.get('/search', (req, res) => {
