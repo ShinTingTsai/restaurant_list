@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 const app = express()
 const port = 3000
@@ -25,6 +26,7 @@ db.once('open', () => {
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.static('public'))
+app.use(bodyParser.urlencoded({extended: true}))
 
 //Setup Router
 app.get("/", (req, res) => {
@@ -34,13 +36,32 @@ app.get("/", (req, res) => {
   .catch(error => console.error(error))
 });
 
+app.get("/restaurants/new", (req, res) => {
+  return res.render("new");
+});
+
+app.post("/restaurants/create", (req, res) => {
+  if (req.body.image.length === 0) {
+    req.body.image = "https://www.teknozeka.com/wp-content/uploads/2020/03/wp-header-logo-33.png";
+  }
+  const restaurant = req.body;
+  return Restaurant.create(restaurant)
+    .then(() => res.redirect('/'))
+    .catch(error => console.error(error))
+});
+
 app.get('/restaurants/:id', (req, res) => {
+  console.log(req.params)
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => res.render('show', { restaurant }))
     .catch(error => console.error(error))
 })
+
+
+
+
 
 
 // app.get('/search', (req, res) => {
