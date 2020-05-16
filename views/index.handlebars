@@ -7,9 +7,7 @@
           width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
         我的餐廳清單
       </a>
-
       <a class="btn btn-primary" href="/restaurants/new" >建立新餐廳</a>
-    
     </div>
   </nav>
 
@@ -52,7 +50,14 @@
                   {{this.rating}}
                   <i class="fas fa-star fa-xs"></i>
                 </span>
-          
+              </div>
+              <div class="card-footer row">
+                <div class="col text-left">
+                  <button class="btn btn-outline-danger btn-sm" type="submit">Delete</button>
+                </div>
+                <div class="col text-right">
+                  <a class="btn btn-outline-primary btn-sm" href="/restaurants/{{this._id}}/edit" role="button">Edit</a>
+                </div>   
               </div>
             </div>
           </a>

@@ -29,13 +29,14 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}))
 
 //Setup Router
+//Read all
 app.get("/", (req, res) => {
   Restaurant.find()
   .lean()
   .then(restaurants => res.render('index', { restaurants }))
   .catch(error => console.error(error))
 });
-
+//Create
 app.get("/restaurants/new", (req, res) => {
   return res.render("new");
 });
@@ -49,18 +50,41 @@ app.post("/restaurants/create", (req, res) => {
     .then(() => res.redirect('/'))
     .catch(error => console.error(error))
 });
-
+// Read Single
 app.get('/restaurants/:id', (req, res) => {
-  console.log(req.params)
   const id = req.params.id
   return Restaurant.findById(id)
     .lean()
     .then((restaurant) => res.render('show', { restaurant }))
     .catch(error => console.error(error))
 })
-
-
-
+// Update
+app.get('/restaurants/:id/edit', (req, res) => {
+  const id = req.params.id;
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render("edit", { restaurant }))
+    .catch((error) => console.error(error));
+});
+app.post("/restaurants/:id/edit", (req, res) => {
+  console.log('req.params',req.params)
+  console.log("req.params", req.body);
+  const id = req.params.id
+  const restaurant = req.body;
+  return Restaurant.findById(id)
+    .then((oldRestaurant) => {
+      oldRestaurant.name = restaurant.name;
+      oldRestaurant.category = restaurant.category
+      oldRestaurant.location = restaurant.location
+      oldRestaurant.phone = restaurant.phone
+      oldRestaurant.description = restaurant.description
+      oldRestaurant.image = restaurant.image
+      return oldRestaurant.save()
+    })
+    .then(() => res.redirect(`/restaurants/${id}`))
+    .catch((error) => console.error(error));
+})
+// Delete
 
 
 
