@@ -2,6 +2,7 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 
 const app = express()
 const port = 3000
@@ -27,6 +28,7 @@ app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride("_method"));
 
 // Setup Router
 // Read all
@@ -40,13 +42,8 @@ app.get('/', (req, res) => {
 
 //Sort
 app.get("/sort/:key/:value", (req, res) => {
-  // console.log('req.body', req.body)
-  // console.log('req.pa', req.params)
   const sortby = { name_asc: "名稱 A -> Z", name_desc: "名稱 Z -> A", category : '類別', location : '地區' };
   const sortSelected = `${req.params.key}_${req.params.value}`
-  // console.log("sortSelected", sortSelected);
-  // console.log("select item", sortby[sortSelected]);
-  // console.log('sortby', sortby)
   Restaurant.find()
     .lean()
     .sort({ [req.params.key]: req.params.value })
@@ -86,7 +83,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
     .then((restaurant) => res.render('edit', { restaurant }))
     .catch((error) => console.error(error))
 })
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   // const restaurant = req.body;
   return Restaurant.findById(id)
@@ -98,7 +95,7 @@ app.post('/restaurants/:id/edit', (req, res) => {
     .catch((error) => console.error(error))
 })
 // Delete
-app.post('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
@@ -106,6 +103,7 @@ app.post('/restaurants/:id/delete', (req, res) => {
     .catch(error => console.error(error))
 })
 
+//Search
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
 

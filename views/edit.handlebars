@@ -13,7 +13,7 @@
   <div class="banner"></div>
 </header>
 <div class="container">
-  <form action="/restaurants/{{ restaurant._id }}/edit" method="post">
+  <form action="/restaurants/{{ restaurant._id }}?_method=PUT" method="post">
     <h1 class="mb-1 restaurant-show-title">
       <input type="text" placeholder="name" name="name" value="{{ restaurant.name }}">
     </h1>
