@@ -13,10 +13,13 @@
 - Node.js v10.15.0
 - Express v4.17.1
 - Express-Handlebars v4.0.4
+- Body-parser: v1.19.0
+- mongoose: v5.9.14
+- method-override: v3.0.0
 
 
 ## 安裝與執行步驟
-- 下載專案到本機
+- 下載專案到本機 (Clone repository to your local computer)
 ```
 git clone https://github.com/ShinTingTsai/restaurant_list.git
 ```
@@ -24,15 +27,22 @@ git clone https://github.com/ShinTingTsai/restaurant_list.git
 ```
 cd restaurant_list
 ```
-- 安裝套件
+- 安裝套件 (Install by npm)
 ```
 npm install
 ```
-- 開啟程式
+- 產生種子資料 (Generate seed data)
+```
+npm run seed
+```
+- 開啟程式 (Execute application)
 ```
 npm run dev
 ```
-- 請至http://localhost:3000開始使用程式
+- 請至http://localhost:3000開始使用程式 ( Access application by browser)
+```
+http://localhost:3000
+```
 
 
 ## 開發人員
