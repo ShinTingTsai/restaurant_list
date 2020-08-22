@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 // 引用路由器
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 require('./config/mongoose')
 
 const app = express()
@@ -15,6 +16,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+usePassport(app)
 app.use(routes)
 
 app.listen(port, () => {
