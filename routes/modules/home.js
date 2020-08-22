@@ -5,15 +5,18 @@ const Restaurant = require('../../models/restaurant')
 
 // Read all
 router.get('/', (req, res) => {
+  const userId = req.user._id
   const sortby = '排序'
-  Restaurant.find()
+  Restaurant.find({ userId })
     .lean()
+    .sort({ _id: 'asc' })
     .then((restaurants) => res.render('index', { restaurants, sortby }))
     .catch((error) => console.error(error))
 })
 
 // Sort
 router.get('/sort/:key/:value', (req, res) => {
+  const userId = req.user._id
   const sortby = {
     name_asc: '名稱 A -> Z',
     name_desc: '名稱 Z -> A',
@@ -21,7 +24,7 @@ router.get('/sort/:key/:value', (req, res) => {
     location_asc: '地區'
   }
   const sortSelected = `${req.params.key}_${req.params.value}`
-  Restaurant.find()
+  Restaurant.find({ userId })
     .lean()
     .sort({ [req.params.key]: req.params.value })
     .then((restaurants) =>
@@ -32,9 +35,10 @@ router.get('/sort/:key/:value', (req, res) => {
 
 // Search
 router.get('/search', (req, res) => {
+  const userId = req.user._id
   const keyword = req.query.keyword
   const sortby = '排序'
-  return Restaurant.find({ name: { $regex: `${keyword}`, $options: 'i' } })
+  return Restaurant.find({ name: { $regex: `${keyword}`, $options: 'i' }, userId: userId })
     .lean()
     .then((restaurants) => {
       if (Object.keys(restaurants).length === 0) { res.render('notFound', { keyword }) } else res.render('index', { restaurants, keyword, sortby })
