@@ -1,6 +1,8 @@
 # 我的餐廳清單
 一個使用Express 與 Node.js + Express-Handlebars 開發的餐廳推薦網站
 
+![image](https://github.com/ShinTingTsai/restaurant_list/blob/master/images/snapshot_login.png)
+
 ![image](https://github.com/ShinTingTsai/restaurant_list/blob/master/images/snapshot_home.png)
 
 ## 功能
