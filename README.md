@@ -30,6 +30,11 @@ git clone https://github.com/ShinTingTsai/restaurant_list.git
 ```
 cd restaurant_list
 ```
+- 建立環境變數檔案
+```
+參考.env.example，裡面有需要的環境變數。
+建立自己的.env
+```
 - 安裝套件 (Install by npm)
 ```
 npm install
