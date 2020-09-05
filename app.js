@@ -1,6 +1,7 @@
 const express = require('express')
 const session = require('express-session')
 const exphbs = require('express-handlebars')
+const handlebars = require('handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
@@ -38,6 +39,10 @@ app.use((req, res, next) => {
   next()
 })
 app.use(routes)
+// 用於網頁判斷兩個參數是否相等
+handlebars.registerHelper('equal', function (item1, item2, options) {
+  return (item1 === item2) ? options.fn(this) : options.inverse(this)
+})
 
 app.listen(PORT, () => {
   console.log(`Express is running on http://localhost:${PORT}`)
